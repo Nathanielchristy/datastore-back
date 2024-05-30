@@ -5,8 +5,14 @@ const fs = require("fs").promises; // Using fs.promises for async file operation
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Define CORS options
+const corsOptions = {
+  origin: "*", // Replace with your allowed origin or '*' for any origin
+  methods: "GET,POST", // Specify allowed HTTP methods
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions)); // Use CORS middleware with specified options
 app.use(express.json()); // Middleware to parse JSON request body
 
 // Define path to JSON file
@@ -56,6 +62,10 @@ app.post("/api/app-data", async (req, res) => {
     console.error("Error adding new user:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+});
+
+app.get("/", (req, res) => {
+  res.json({ message: "hi from server" });
 });
 
 // Start the server
